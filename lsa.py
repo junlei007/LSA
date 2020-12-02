@@ -60,6 +60,21 @@ class LSA:
         self._get_frequency_array()
         self._adjusted_residual_z()
 
+    def to_sds(self, seqs, file_name, user_name='Student'):
+        with open(file_name, 'w+') as f:
+            f.write("Event\n")
+            f.write("($Behavior = {})\n".format(' '.join(self.code_set)))
+            f.write("Type(Clinic Control);\n")
+
+            for idx, i in enumerate(seqs[:-1]):
+                f.write('\n')
+                f.write("% {} #{}\n".format(user_name, idx+1))
+                f.write("{};\n".format(' '.join(i)))
+
+            f.write('\n')
+            f.write("% {} #{}\n".format(user_name, idx+2))
+            f.write("{}/\n".format(' '.join(seqs[-1])))
+
 
 if __name__ == '__main__':
     data = [['A', 'B', 'C', 'B', 'C', 'B', 'C'],
@@ -67,4 +82,4 @@ if __name__ == '__main__':
 
     lsa = LSA(['A', 'B', 'C'])
     lsa.fit(data)
-
+    lsa.to_sds(data, "2.sds")
