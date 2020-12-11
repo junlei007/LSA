@@ -10,7 +10,7 @@ pip install pyseqlsa
 ```
 pip3 install pyseqlsa
 ```
-
+## 快速使用
 ```
 from pyseqlsa import LSA
 data = [['A', 'B', 'C', 'B', 'C', 'B', 'C'],
