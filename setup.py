@@ -8,7 +8,6 @@ import io
 import os
 import sys
 from shutil import rmtree
-from .pyseqlsa import __version__
 
 from setuptools import find_packages, setup, Command
 
@@ -19,7 +18,7 @@ URL = 'https://github.com/junlei007/LSA'
 EMAIL = 'junlei007.love@163.com'
 AUTHOR = 'JunLei D'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '.'.join(list(__version__))
+VERSION = "0.1.1"
 
 # What packages are required for this module to be executed?
 REQUIRED = [
