@@ -1,10 +1,10 @@
-'''
+"""
 @author: JunLei_D
 @contact: junlei007.love@163.com
 @file: lsa.py
 @time: 2020/11/30 11:06
 @desc: 关于滞后序列方法的pyhton实现
-'''
+"""
 
 import numpy as np
 import pandas as pd
