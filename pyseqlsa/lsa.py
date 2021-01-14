@@ -7,6 +7,8 @@
 '''
 
 import numpy as np
+import pandas as pd
+from pprint import pprint
 
 
 class LSA:
@@ -34,9 +36,7 @@ class LSA:
                     idx2 = self.code_set.index(act)
                     self.transform_array[idx1][idx2] += 1
                     last_code = act
-        print(' ', '    '.join(self.code_set))
-        for i in range(self.code_length):
-            print(self.code_set[i], '  '.join([str(i) for i in self.transform_array[i]]))
+        pprint(pd.DataFrame(self.transform_array, columns=self.code_set, index=self.code_set))
 
     def _adjusted_residual_z(self):
         array = self.transform_array
@@ -50,10 +50,7 @@ class LSA:
         c_ij = np.sqrt(np.dot(i_minus.reshape([length, 1]), j_minus.reshape([1, length])) * eij)
         z_ij = (array - eij) / c_ij
         self.Z = z_ij.round(3)
-
-        print('   ', '       '.join(self.code_set))
-        for i in range(self.code_length):
-            print(self.code_set[i], '  '.join([str(i) for i in self.Z[i]]))
+        pprint(pd.DataFrame(self.Z, columns=self.code_set, index=self.code_set))
 
     def fit(self, seqs):
         self.seqs = seqs
@@ -68,11 +65,11 @@ class LSA:
 
             for idx, i in enumerate(seqs[:-1]):
                 f.write('\n')
-                f.write("% {} #{}\n".format(user_name, idx+1))
+                f.write("% {} #{}\n".format(user_name, idx + 1))
                 f.write("{};\n".format(' '.join(i)))
 
             f.write('\n')
-            f.write("% {} #{}\n".format(user_name, idx+2))
+            f.write("% {} #{}\n".format(user_name, idx + 2))
             f.write("{}/\n".format(' '.join(seqs[-1])))
 
 
@@ -82,4 +79,4 @@ if __name__ == '__main__':
 
     lsa = LSA(['A', 'B', 'C'])
     lsa.fit(data)
-    lsa.to_sds(data, "2.sds")
+    # lsa.to_sds(data, "2.sds")

@@ -22,7 +22,8 @@ VERSION = '0.1.0'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    "numpy"
+    "numpy",
+    "pandas"
 ]
 
 # What packages are optional?
