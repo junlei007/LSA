@@ -27,7 +27,7 @@ class LSA:
         self.transform_array = np.zeros([self.code_length, self.code_length])
         self.Z = np.zeros([self.code_length, self.code_length])
 
-    def _get_frequency_array(self):
+    def _get_frequency_array(self, output=True):
         for seq in self.seqs:
             if seq:
                 last_code = seq[0]
@@ -36,9 +36,10 @@ class LSA:
                     idx2 = self.code_set.index(act)
                     self.transform_array[idx1][idx2] += 1
                     last_code = act
-        pprint(pd.DataFrame(self.transform_array, columns=self.code_set, index=self.code_set))
+        if output:
+            pprint(pd.DataFrame(self.transform_array, columns=self.code_set, index=self.code_set))
 
-    def _adjusted_residual_z(self):
+    def _adjusted_residual_z(self, output):
         array = self.transform_array
         length = self.code_length
         i = array.sum(axis=1)
@@ -50,12 +51,19 @@ class LSA:
         c_ij = np.sqrt(np.dot(i_minus.reshape([length, 1]), j_minus.reshape([1, length])) * eij)
         z_ij = (array - eij) / c_ij
         self.Z = z_ij.round(3)
-        pprint(pd.DataFrame(self.Z, columns=self.code_set, index=self.code_set))
+        self.Z_frame = pd.DataFrame(self.Z, columns=self.code_set, index=self.code_set)
+        if output:
+            pprint(self.Z_frame)
 
-    def fit(self, seqs):
+    def fit(self, seqs, output=True):
+        """
+        :param seqs: 序列
+        :param output: 是否print输出，默认为True，若为False，就不打印
+        :return:
+        """
         self.seqs = seqs
-        self._get_frequency_array()
-        self._adjusted_residual_z()
+        self._get_frequency_array(output)
+        self._adjusted_residual_z(output)
 
     def to_sds(self, seqs, file_name, user_name='Student'):
         with open(file_name, 'w+') as f:
